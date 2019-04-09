@@ -68,9 +68,9 @@ python get_SNR_bam_merged_reads.py -f merged_mNET_Long_S5P_rep1_unique.bam -s me
 Python script [Filter_InternalPriming.py](https://github.com/kennyrebelo/Filtering_InternalPriming)
 command used for merged reads:
 ```
-python Filter_InternalPriming.py -f /alignments/merged_mNET_Long_S5P_rep1_unique.bam -s single -a TGG.. -d ./ -g /genomes/human/hg38/GRCh38.primary.genome.fa
+python Filter_InternalPriming.py -f /alignments/merged_mNET_Long_S5P_rep1_unique.bam -s single -a TGG.. -g /genomes/human/hg38/GRCh38.primary.genome.fa
 ```
 command used for paired reads:
 ```
-python Filter_InternalPriming.py -f /alignments/mNET_Long_S5P_rep1_unique_sorted.bam -s paired -a .GGA -d ./ -g /genomes/human/hg38/GRCh38.primary.genome.fa
+python Filter_InternalPriming.py -f /alignments/mNET_Long_S5P_rep1_unique_sorted.bam -s paired -a .GGA -g /genomes/human/hg38/GRCh38.primary.genome.fa
 ```
