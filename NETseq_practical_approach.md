@@ -16,25 +16,14 @@ Cutadapt command:
 cutadapt -a TGGAATTCTCGGGTGCCAAGG -A GATCGTCGGACTGTAGAACTCTGAAC -m 10 -e 0.05 --match-read-wildcards -n 1 -o mNET_Long_S5P_rep1_1_tr.fastq.gz -p mNET_Long_S5P_rep1_2_tr.fastq.gz mNET_Long_S5P_rep1_1.fastq mNET_Long_S5P_rep1_2.fastq
 ```
 
-## S2.2.1. Merge overlapping paired-end reads
 
-Default merging parameters were used in bbmerge.sh (version 38.24). Strictness of used parameters can be increased at the cost of the number of pairs joined.
-BBMerge command used:
-```
-bbmerge.sh in1=mNET_Long_S5P_rep1_1_tr.fastq.gz in2=mNET_Long_S5P_rep1_2_tr.fastq.gz out=./merged_mNET_Long_S5P_rep1.fastq.gz outu1=./mNET_Long_S5P_rep1_1.unmerged.fastq.gz outu2=./mNET_Long_S5P_rep1_2.unmerged.fastq.gz
-```
-
-
-## S2.3. Genome mapping
+## S2.2. Mapping of reads to the reference genome 
 STAR (version 2.6.0b) set to detect chimeric alignments with the minimum mapped length of at least 20nt on each end.
 STAR index generation:
 ```
 STAR --runMode genomeGenerate --genomeDir ./starIndex/ --genomeFastaFiles /genomes/human/hg38/GRCh38.primary.genome.fa –-sjdbGTFfile /genomes/human/hg38/gencode.v28.annotation.gtf
 ```
-STAR command (merged reads):
-```
-STAR --runMode alignReads –genomeDir /genomes/human/hg38/star/ --readFilesIn ./merged_mNET_Long_S5P_rep1.fastq.gz --chimSegmentMin 20 --outSAMtype BAM Unsorted --readFilesCommand gunzip -c --outFileNamePrefix /alignments/merged_mNET_Long_S5P_rep1_
-```
+
 STAR command (paired reads):
 ```
 STAR --runMode alignReads --genomeDir /genomes/human/hg38/star/ --readFilesIn ./mNET_Long_S5P_rep1_1_tr.fastq.gz ./mNET_Long_S5P_rep1_2_tr.fastq.gz --chimSegmentMin 20 --outSAMtype BAM Unsorted --readFilesCommand gunzip -c --outFileNamePrefix /alignments/mNET_Long_S5P_rep1_
@@ -49,27 +38,18 @@ rm -f mNET_Long_S5P_rep1_unique_H.sam
 rm -f mNET_Long_S5P_rep1_unique.sam
 ```
 
-## S2.4.2. Pol II nucleotide position from paired-end reads 
+## S2.3. Identification of RNA 3' ends
 Using python (version 2.7.12) script [get_SNR_bam.py](https://github.com/tomasgomes/mNET_snr)
 command used:
 ```
 python get_SNR_bam.py -f mNET_Long_S5P_rep1_unique.bam -s mNET_Long_S5P_rep1 -d ./
 ```
 
-## S2.4.3. Pol II nucleotide position from merged paired-end reads
-Using python (version 2.7.12) script [get_SNR_bam_merged_reads.py](https://github.com/kennyrebelo/mNET_snr)
-command used:
-```
-python get_SNR_bam_merged_reads.py -f merged_mNET_Long_S5P_rep1_unique.bam -s merged_mNET_Long_S5P_rep1_unique -d ./
-```
 
 
-## S2.5.1.1 Reverse transcription internal priming events removal
+## S2.4. Identification and removal of PCR internal priming 
 Python script [Filter_InternalPriming.py](https://github.com/kennyrebelo/Filtering_InternalPriming)
-command used for merged reads:
-```
-python Filter_InternalPriming.py -f /alignments/merged_mNET_Long_S5P_rep1_unique.bam -s single -a TGG.. -g /genomes/human/hg38/GRCh38.primary.genome.fa
-```
+
 command used for paired reads:
 ```
 python Filter_InternalPriming.py -f /alignments/mNET_Long_S5P_rep1_unique_sorted.bam -s paired -a .GGA -g /genomes/human/hg38/GRCh38.primary.genome.fa
