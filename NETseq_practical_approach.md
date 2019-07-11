@@ -52,12 +52,12 @@ python get_SNR_bam_ignoreSoftClip.py -f mNET_Long_S5P_rep1_unique.bam -s mNET_Lo
 Python script [Filter_InternalPriming.py](https://github.com/kennyrebelo/Filtering_InternalPriming)
 
 This script removes reads that result from internal priming events. Reads that result from internal priming will have their downstream
-nucleotides (after alignment) matching partially/fully to the adapter sequence that was connected to the 3'OH end during library preparation.
+nucleotides (after alignment) matching partially/fully to the adapter sequence that was connected to the 3'OH end (TGGAATTCTCGGGTGCCAAGG) during library preparation.
 This script checks for the presence or absence of the 3'OH connected adapter sequence downstream of the aligned reads.
 
 command used for paired reads:
 ```
-python Filter_InternalPriming.py -f /alignments/mNET_Long_S5P_rep1_unique_sorted.bam -s paired -a .GGA -g /genomes/human/hg38/GRCh38.primary.genome.fa
+python Filter_InternalPriming.py -f /alignments/mNET_Long_S5P_rep1_unique_sorted.bam -s paired -a TGG.. -g /genomes/human/hg38/GRCh38.primary.genome.fa
 ```
 
 
