@@ -48,15 +48,22 @@ python get_SNR_bam_ignoreSoftClip.py -f mNET_Long_S5P_rep1_unique.bam -s mNET_Lo
 ```
 
 
-
 ## S2.4. Identification and removal of PCR internal priming 
 Python script [Filter_InternalPriming.py](https://github.com/kennyrebelo/Filtering_InternalPriming)
-Since the adaptor sequence that will be on the 
+
+This script removes reads that result from internal priming events. Reads that result from internal priming will have their downstream
+nucleotides (after alignment) matching partially/fully to the adapter sequence that was connected to the 3'OH end during library preparation.
+This script checks for the presence or absence of the 3'OH connected adapter sequence downstream of the aligned reads.
 
 command used for paired reads:
 ```
 python Filter_InternalPriming.py -f /alignments/mNET_Long_S5P_rep1_unique_sorted.bam -s paired -a .GGA -g /genomes/human/hg38/GRCh38.primary.genome.fa
 ```
+
+
+## S2.5 Distinguishing nascent RNA from splicing intermediates
+NET-seq signal from co-transcriptional splicing corresponds to reads that map to the last nucleotide of exons/introns. If there is interest in co-transcriptional splicing then only use these genomic regions. If the interest is in nascent RNA then you should disregard these regions from the analysis.
+
 
 ## S2.6. Selection of transcriptionally active genes
 Read counts values in each 500kb window were obtained using [bedtools](https://bedtools.readthedocs.io/en/latest/index.html) (version  v2.27.1-1-gb87c465)
