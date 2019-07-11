@@ -1,5 +1,7 @@
 # Supplemental material and methods
 
+In this section we provide the specific options used for each program to aid the reader setup their own analysis.
+
 **Dataset used**: Long reads S5P mNET-seq dataset (Nojima et al., 2018). From [GSE106881](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE106881) we used [GSM2856674](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM2856674) and [GSM2856677](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM2856677).
 
 ## S2.1. Quality control and Adapter trimming
@@ -39,18 +41,27 @@ rm -f mNET_Long_S5P_rep1_unique.sam
 ```
 
 ## S2.3. Identification of RNA 3' ends
-Using python (version 2.7.12) script [get_SNR_bam.py](https://github.com/tomasgomes/mNET_snr)
+Using python (version 2.7.12) script [get_SNR_bam_ignoreSoftClip.py](https://github.com/kennyrebelo/mNET_snr)
 command used:
 ```
-python get_SNR_bam.py -f mNET_Long_S5P_rep1_unique.bam -s mNET_Long_S5P_rep1 -d ./
+python get_SNR_bam_ignoreSoftClip.py -f mNET_Long_S5P_rep1_unique.bam -s mNET_Long_S5P_rep1 -d ./
 ```
 
 
 
 ## S2.4. Identification and removal of PCR internal priming 
 Python script [Filter_InternalPriming.py](https://github.com/kennyrebelo/Filtering_InternalPriming)
+Since the adaptor sequence that will be on the 
 
 command used for paired reads:
 ```
 python Filter_InternalPriming.py -f /alignments/mNET_Long_S5P_rep1_unique_sorted.bam -s paired -a .GGA -g /genomes/human/hg38/GRCh38.primary.genome.fa
+```
+
+## S2.6. Selection of transcriptionally active genes
+Read counts values in each 500kb window were obtained using [bedtools](https://bedtools.readthedocs.io/en/latest/index.html) (version  v2.27.1-1-gb87c465)
+
+command used:
+```
+coverageBed -a intergenic_regions_500kb_Windows.bed -b Filter_IP/mNET_Long_S5P_rep1_noInternalPriming.bam -counts > intergenic_regions_500kb_Windows_cov.bed
 ```
