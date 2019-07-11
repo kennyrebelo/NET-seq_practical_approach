@@ -1,4 +1,4 @@
-# Supplemental material and methods
+# Supplemental Material and Methods
 
 In this section we provide the specific options used for each program to aid the reader setup their own analysis.
 
