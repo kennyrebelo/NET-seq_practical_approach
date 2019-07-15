@@ -33,7 +33,7 @@ STAR --runMode alignReads --genomeDir /genomes/human/hg38/star/ --readFilesIn ./
 To obtain the uniquely mapped reads using SAMtools (version 1.7):
 ```
 samtools view -H mNET_Long_S5P_rep1_Aligned.out.bam > mNET_Long_S5P_rep1_header.sam
-samtools view mNET_Long_S5P_rep1_Aligned.out.bam | grep -w 'NH:i:1' > mNET_Long_S5P_rep1_unique.sam
+samtools view -q 255 mNET_Long_S5P_rep1_Aligned.out.bam > mNET_Long_S5P_rep1_unique.sam
 cat mNET_Long_S5P_rep1_header.sam mNET_Long_S5P_rep1_unique.sam > mNET_Long_S5P_rep1_unique_H.sam
 samtools view -Sb -h mNET_Long_S5P_rep1_unique_H.sam > mNET_Long_S5P_rep1_unique.bam
 rm -f mNET_Long_S5P_rep1_unique_H.sam
