@@ -30,7 +30,7 @@ STAR command (paired reads):
 ```
 STAR --runMode alignReads --genomeDir /genomes/human/hg38/star/ --readFilesIn ./mNET_Long_S5P_rep1_1_tr.fastq.gz ./mNET_Long_S5P_rep1_2_tr.fastq.gz --chimSegmentMin 20 --outSAMtype BAM Unsorted --readFilesCommand gunzip -c --outFileNamePrefix /alignments/mNET_Long_S5P_rep1_
 ```
-To obtain the uniquely mapped reads using SAMtools (version 1.7):
+To obtain the uniquely mapped reads using [SAMtools](http://www.htslib.org/) (version 1.7):
 ```
 samtools view -H mNET_Long_S5P_rep1_Aligned.out.bam > mNET_Long_S5P_rep1_header.sam
 samtools view -q 255 mNET_Long_S5P_rep1_Aligned.out.bam > mNET_Long_S5P_rep1_unique.sam
@@ -63,7 +63,7 @@ python Filter_InternalPriming.py -f /alignments/mNET_Long_S5P_rep1_unique_sorted
 
 ## S2.5 Distinguishing nascent RNA from splicing intermediates
 NET-seq signal from co-transcriptional splicing corresponds to reads that map to the last nucleotide of exons/introns. If there is interest in co-transcriptional splicing then only use these genomic regions. If the interest is in nascent RNA then you should disregard these regions from the analysis.
-Some example commands on how to exclude reads that map to the very last nucleotide of exons/introns:
+Some example commands on how to exclude reads that map to the very last nucleotide of exons/introns using [bedtools](https://bedtools.readthedocs.io/en/latest/index.html) (version  v2.27.1-1-gb87c465) together with [SAMtools](http://www.htslib.org/) (version 1.7):
 
 ```
 intersectBed -a mNET_Long_S5P_rep1_SNR.bam -b exons_lastNT.bed -wa -v | samtools view - > mNET_Long_S5P_rep1_SNR_noLastNT_temp.sam
@@ -74,7 +74,7 @@ rm -f mNET_Long_S5P_rep1_SNR_noLastNT.sam
 ```
 
 ## S2.6. Selection of transcriptionally active genes
-Read counts values in each 500kb window were obtained using [ ](https://bedtools.readthedocs.io/en/latest/index.html) (version  v2.27.1-1-gb87c465)
+Read counts values in each 500kb window were obtained using [bedtools](https://bedtools.readthedocs.io/en/latest/index.html) (version  v2.27.1-1-gb87c465)
 
 command used:
 ```
