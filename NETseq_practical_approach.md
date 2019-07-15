@@ -63,10 +63,18 @@ python Filter_InternalPriming.py -f /alignments/mNET_Long_S5P_rep1_unique_sorted
 
 ## S2.5 Distinguishing nascent RNA from splicing intermediates
 NET-seq signal from co-transcriptional splicing corresponds to reads that map to the last nucleotide of exons/introns. If there is interest in co-transcriptional splicing then only use these genomic regions. If the interest is in nascent RNA then you should disregard these regions from the analysis.
+Some example commands on how to exclude reads that map to the very last nucleotide of exons/introns:
 
+```
+intersectBed -a mNET_Long_S5P_rep1_SNR.bam -b exons_lastNT.bed -wa -v | samtools view - > mNET_Long_S5P_rep1_SNR_noLastNT_temp.sam
+cat mNET_Long_S5P_rep1_header.sam mNET_Long_S5P_rep1_SNR_noLastNT_temp.sam > mNET_Long_S5P_rep1_SNR_noLastNT.sam
+samtools view -bS mNET_Long_S5P_rep1_SNR_noLastNT.sam > mNET_Long_S5P_rep1_SNR_noLastNT.bam
+rm -f mNET_Long_S5P_rep1_SNR_noLastNT_temp.sam
+rm -f mNET_Long_S5P_rep1_SNR_noLastNT.sam
+```
 
 ## S2.6. Selection of transcriptionally active genes
-Read counts values in each 500kb window were obtained using [bedtools](https://bedtools.readthedocs.io/en/latest/index.html) (version  v2.27.1-1-gb87c465)
+Read counts values in each 500kb window were obtained using [ ](https://bedtools.readthedocs.io/en/latest/index.html) (version  v2.27.1-1-gb87c465)
 
 command used:
 ```
